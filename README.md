@@ -156,6 +156,27 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             })
 ```
 
+### Other services
+
+A lot of other service hooks are also present. However some are missing and will come in future releases.
+
+|Service Name|ImplementationStatus|
+|---|---|
+|ContentResolver|OK|
+|NotificationManager|OK|
+|ActivityManager|OK|
+|AppOpsManager|OK|
+|PackageManager|OK|
+|ActivityTaskManager|OK|
+|AlarmManager|WIP|
+|WallpaperManager|WIP|
+|RoleService|WIP|
+|CameraService|WIP|
+|PrintService|WIP|
+|TrustService|WIP|
+|UsageStatsService|WIP|
+|...|Feel free to submit feature requests if you need more services|
+
 ### Enable VERBOSE mode
 
 By adding these lines of code you can enable the verbose mode
