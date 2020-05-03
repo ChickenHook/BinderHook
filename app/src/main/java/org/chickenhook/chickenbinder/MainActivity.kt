@@ -178,17 +178,17 @@ class MainActivity : AppCompatActivity() {
 //                "START_FLAG_DEBUG"
 //            )!!)
 
-                    or (getReflective(
-                null,
-                ActivityManager::class.java,
-                "START_FLAG_TRACK_ALLOCATION"
-            )!!)
-
-                    or (getReflective(
-                null,
-                ActivityManager::class.java,
-                "START_FLAG_NATIVE_DEBUGGING"
-            )!!)
+//                    or (getReflective(
+//                null,
+//                ActivityManager::class.java,
+//                "START_FLAG_TRACK_ALLOCATION"
+//            )!!)
+//
+//                    or (getReflective(
+//                null,
+//                ActivityManager::class.java,
+//                "START_FLAG_NATIVE_DEBUGGING"
+//            )!!)
 
 
         ); // flags
