@@ -22,15 +22,16 @@ allprojects {
 ```groovy
    dependencies {
         implementation 'com.github.ChickenHook:BinderHook:1.0'
+        implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
    }
 ```
 # Usage
 
-This chapter showcases how to use this hooking library. Also please have a look at [MainActivity.kt](app/src/main/java/org.chickenhook.chickenbinder/MainActivity.kt), [MainActivityTest.kt](androidTest/src/main/java/org.chickenhook.chickenbinder/MainActivityTest.kt) and [ServiceHooksTest.java](binderhooks/src/androidTest/java/org.chickenhook.binderhooks/ServiceHooksTest.java)
+This chapter showcases how to use this hooking library. Also please have a look at [MainActivity.kt](app/src/main/java/org/chickenhook/chickenbinder/MainActivity.kt), [MainActivityTest.kt](androidTest/src/main/java/org/chickenhook/chickenbinder/MainActivityTest.kt) and [ServiceHooksTest.java](binderhooks/src/androidTest/java/org/chickenhook/binderhooks/ServiceHooksTest.java)
 
 ### Package Manager
 
-Please check https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/content/pm/IPackageManager.java;bpv=1;bpt=0
+Please check [AIDL Implementation](https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/content/pm/IPackageManager.java;bpv=1;bpt=0)
 in order to learn parcel encode / decode instructions
 
 
@@ -91,7 +92,7 @@ in order to learn parcel encode / decode instructions
 
 ### ActivityManager
 
-Please check https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/app/IActivityManager.java;bpv=1;bpt=0
+Please check [AIDL Implementation](https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/app/IActivityManager.java;bpv=1;bpt=0)
 in order to learn parcel encode / decode instructions
 
 ```kt
@@ -122,7 +123,7 @@ in order to learn parcel encode / decode instructions
 
 ### ActivityTaskManager
 
-Please check https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/app/IActivityManager.java;bpv=1;bpt=0
+Please check [AIDL Implementation](https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/app/IActivityManager.java;bpv=1;bpt=0)
 in order to learn parcel encode / decode instructions
 
 ```kt
