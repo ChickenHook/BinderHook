@@ -177,7 +177,7 @@ A lot of other service hooks are also present. However some are missing and will
 |UsageStatsService|WIP|
 |...|Feel free to submit feature requests if you need more services|
 
-### Enable VERBOSE mode
+## Enable VERBOSE mode
 
 By adding these lines of code you can enable the verbose mode
 
@@ -209,7 +209,50 @@ This will create output like:
         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:939)
 ```
 
-for any transaction that went through your installed binder hook. In future we'll also add parcel dump support.
+and
+
+```
+2020-05-07 10:44:55.603 4911-4911/org.chickenhook.chickenbinder D/chickenbinder: dump parcel <0x7444767700>
+2020-05-07 10:44:55.603 4911-4911/org.chickenhook.chickenbinder D/chickenbinder: ---------------------------------------------------------------------------------------------------------------------------------------------
+2020-05-07 10:44:55.603 4911-4911/org.chickenhook.chickenbinder D/parcel: HEX (76 bytes):
+2020-05-07 10:44:55.603 4911-4911/org.chickenhook.chickenbinder D/parcel: 04:00:00:C2:FF:FF:FF:FF:1C:00:00:00:61:00:6E:00:64:00:72:00:6F:00:69:00:64:00:2E:00:61:00:70:00:70:00:2E:00:49:00:41:00:63:00:74:00:69:00:76:00:69:00
+2020-05-07 10:44:55.603 4911-4911/org.chickenhook.chickenbinder D/parcel: 74:00:79:00:4D:00:61:00:6E:00:61:00:67:00:65:00:72:00:00:00:00:00:61:13:00:00
+2020-05-07 10:44:55.603 4911-4911/org.chickenhook.chickenbinder D/chickenbinder: ---------------------------------------------------------------------------------------------------------------------------------------------
+```
+
+for any transaction that went through your installed binder hook.
+
+## Parcel
+
+In order to work with existing parcels and be able to modify also restricted content like flattened Binder objects (aka writeStrongBinder, readStrongBinder) we added some low level edit functions.
+
+### dump
+
+This function dumps the content of the parcel as hexdump to logcat
+
+```
+                    ParcelEditor.dump(parcel);
+```
+
+### write
+
+Write a bunch of bites at the given offset
+
+```
+                    byte[] bytes = new byte[]{
+                            1, 2, 3
+                    };
+                    ParcelEditor.write(parcel, 0, bytes);
+```
+
+### read
+
+Read a bunch of bytes from the given offset
+
+```
+                    byte[] content = ParcelEditor.read(parcel, 0, parcel.dataSize());
+```
+
 
 ## Troubleshooting
 

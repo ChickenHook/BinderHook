@@ -106,10 +106,27 @@ public class ProxyHook {
 
         @Override
         public boolean transact(int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
-            if (VERBOSE)
-                log("Got transact call code: <" + code + "> data: <" + data + "> reply: <" + reply + "> flags: <" + flags + ">");
-            if (VERBOSE) doStackTrace();
-            return mOnBinderListener.transact(mOriginalBinder, code, data, reply, flags);
+            if (VERBOSE) {
+                try {
+                    log("Got transact call code: <" + code + "> data: <" + data + "> reply: <" + reply + "> flags: <" + flags + ">");
+                    doStackTrace();
+                    ParcelEditor.dump(data);
+                } catch (Exception e) {
+                    log("Error while dump parcel", e);
+                }
+            }
+            boolean res = mOnBinderListener.transact(mOriginalBinder, code, data, reply, flags);
+            if (VERBOSE) {
+                try {
+                    if (reply != null) {
+                        log("Got reply call code: <" + code + "> data: <" + data + "> reply: <" + reply + "> flags: <" + flags + ">");
+                        ParcelEditor.dump(reply);
+                    }
+                } catch (Exception e) {
+                    log("Error while dump parcel", e);
+                }
+            }
+            return res;
         }
 
         @Override
