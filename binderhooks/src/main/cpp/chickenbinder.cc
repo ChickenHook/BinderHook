@@ -117,7 +117,7 @@ static const JNINativeMethod gMethods[] = {
         {"read", "(JII)[B", (void *) &readParcel},
         {"write", "(JI[B)V", (void *) &writeParcel},
 };
-static const char *classPathName = "org/chickenhook/binderhooks/ParcelTools";
+static const char *classPathName = "org/chickenhook/binderhooks/ParcelEditor";
 
 static int registerNativeMethods(JNIEnv *env, const char *className,
                                  JNINativeMethod *gMethods, int numMethods) {
