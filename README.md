@@ -238,7 +238,7 @@ This function dumps the content of the parcel as hexdump to logcat
 
 Write a bunch of bites at the given offset
 
-```
+```Java
                     byte[] bytes = new byte[]{
                             1, 2, 3
                     };
@@ -249,7 +249,7 @@ Write a bunch of bites at the given offset
 
 Read a bunch of bytes from the given offset
 
-```
+```Java
                     byte[] content = ParcelEditor.read(parcel, 0, parcel.dataSize());
 ```
 
