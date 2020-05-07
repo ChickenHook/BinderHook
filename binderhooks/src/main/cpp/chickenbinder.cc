@@ -85,7 +85,7 @@ jobject JNICALL readParcel(JNIEnv *env,
     __android_log_print(ANDROID_LOG_DEBUG, "chickenbinder", "read parcel <%p>", parcelAddr);
     uint8_t *data = GetData(parcelAddr);
     jbyteArray jarr = env->NewByteArray(size);
-    env->SetByteArrayRegion(jarr, 0, size, reinterpret_cast<const jbyte *>(data));
+    env->SetByteArrayRegion(jarr, 0, size, reinterpret_cast<const jbyte *>(data + offset));
     return jarr;
 }
 
@@ -113,8 +113,8 @@ static JNICALL void dumpParcel(
 static const JNINativeMethod gMethods[] = {
         /*{"manipulateParcel", "(JII)J",               (void *) manipulateParcel},
         {"readAddr",         "()Ljava/lang/String;", (void *) Java_readAddr},*/
-        {"dump", "(JI)V",   (void *) &dumpParcel},
-        {"read", "(JII)[B", (void *) &readParcel},
+        {"dump",  "(JI)V",   (void *) &dumpParcel},
+        {"read",  "(JII)[B", (void *) &readParcel},
         {"write", "(JI[B)V", (void *) &writeParcel},
 };
 static const char *classPathName = "org/chickenhook/binderhooks/ParcelEditor";
