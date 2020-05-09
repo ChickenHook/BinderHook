@@ -347,5 +347,18 @@ class MainActivity : AppCompatActivity() {
                 return originalBinder.transact(code, data, reply, flags)
             }
         })
+
+        ServiceHooks.hookWindowManager(object :
+            OnBinderListener() {
+            override fun transact(
+                originalBinder: IBinder,
+                code: Int,
+                data: Parcel,
+                reply: Parcel?,
+                flags: Int
+            ): Boolean {
+                return originalBinder.transact(code, data, reply, flags)
+            }
+        })
     }
 }

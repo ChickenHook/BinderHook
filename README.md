@@ -21,7 +21,7 @@ allprojects {
 2) In your library/build.gradle add:
 ```groovy
    dependencies {
-        implementation 'com.github.ChickenHook:BinderHook:2.2'
+        implementation 'com.github.ChickenHook:BinderHook:2.3'
         implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
    }
 ```
@@ -154,6 +154,26 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                     return originalBinder.transact(code, data, reply, flags)
                 }
             })
+```
+
+### WindowManager
+
+Please check [AIDL Implementation](https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/app/IActivityManager.java;bpv=1;bpt=0https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/view/IWindowManager.java;bpv=1;bpt=0)
+in order to learn parcel encode / decode instructions
+
+```
+        ServiceHooks.hookWindowManager(object :
+            OnBinderListener() {
+            override fun transact(
+                originalBinder: IBinder,
+                code: Int,
+                data: Parcel,
+                reply: Parcel?,
+                flags: Int
+            ): Boolean {
+                return originalBinder.transact(code, data, reply, flags)
+            }
+        })
 ```
 
 ### Other services

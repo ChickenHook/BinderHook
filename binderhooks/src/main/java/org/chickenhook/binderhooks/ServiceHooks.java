@@ -57,4 +57,9 @@ public class ServiceHooks {
         getMethod.setAccessible(true);
         return ProxyHook.addHook(getMethod.invoke(IActivityTaskManagerSingleton), onBinderListener);
     }
+
+    public static boolean hookWindowManager(@NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+        Object sWindowManagerService = getReflective(null, Class.forName("android.view.WindowManagerGlobal"), "sWindowManagerService");
+        return ProxyHook.addHook(sWindowManagerService, onBinderListener);
+    }
 }
