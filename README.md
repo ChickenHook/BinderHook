@@ -158,7 +158,7 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
 
 ### WindowManager
 
-Please check [AIDL Implementation](https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/app/IActivityManager.java;bpv=1;bpt=0https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/view/IWindowManager.java;bpv=1;bpt=0)
+Please check [AIDL Implementation](https://cs.android.com/android/platform/superproject/+/master:out/soong/.intermediates/frameworks/base/framework-minus-apex/android_common/xref28/srcjars.xref/frameworks/base/core/java/android/view/IWindowManager.java;bpv=1;bpt=0)
 in order to learn parcel encode / decode instructions
 
 ```
@@ -187,6 +187,7 @@ A lot of other service hooks are also present. However some are missing and will
 |ActivityManager|OK|
 |AppOpsManager|OK|
 |PackageManager|OK|
+|WindowManager|OK|
 |ActivityTaskManager|OK|
 |AlarmManager|WIP|
 |WallpaperManager|WIP|
