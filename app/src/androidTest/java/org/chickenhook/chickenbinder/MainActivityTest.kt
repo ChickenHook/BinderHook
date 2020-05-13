@@ -11,7 +11,7 @@ class MainActivityTest {
 
     @Rule
     @JvmField
-    val activityTestRule = ActivityTestRule(MainActivity::class.java)
+    val activityTestRule = ActivityTestRule(MainActivityKotlin::class.java)
 
     @Test
     fun crashAndroidAPI29() {
@@ -22,5 +22,10 @@ class MainActivityTest {
     @Test
     fun harmFulAppWarning() {
         onView(withId(R.id.packageManagerTest)).perform(click())
+    }
+
+    @Test
+    fun windowManagerTest() {
+        onView(withId(R.id.windowManagerTest)).perform(click())
     }
 }

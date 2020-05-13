@@ -8,6 +8,9 @@ import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 
+import org.chickenhook.binderhooks.proxyListeners.ProxyListener;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -15,17 +18,29 @@ import static org.chickenhook.binderhooks.Logger.log;
 import static org.chickenhook.restrictionbypass.helpers.Reflection.getReflective;
 
 public class ServiceHooks {
-    public static boolean hookContentResolver(@NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException {
+    public static boolean hookContentResolver(@NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException {
         Object sContentService = getReflective(null, ContentResolver.class, "sContentService");
-        return ProxyHook.addHook(sContentService, onBinderListener);
+        return BinderHook.addHook(sContentService, binderListener);
     }
 
-    public static boolean hookNotificationManager(@NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException {
+    public static boolean hookContentResolver(@NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException {
+        Field f = ContentResolver.class.getDeclaredField("sContentService");
+        f.setAccessible(true);
+        return ProxyHook.addHook(null, f, f.getType() , proxyListener);
+    }
+
+    public static boolean hookNotificationManager(@NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException {
         Object sService = getReflective(null, NotificationManager.class, "sService");
-        return ProxyHook.addHook(sService, onBinderListener);
+        return BinderHook.addHook(sService, binderListener);
     }
 
-    public static boolean hookActivityManager(@NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static boolean hookNotificationManager(@NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException {
+        Field f = NotificationManager.class.getDeclaredField("sService");
+        f.setAccessible(true);
+        return ProxyHook.addHook(null, f,f.getType(), proxyListener);
+    }
+
+    public static boolean hookActivityManager(@NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Object IActivityManagerSingleton = getReflective(null, ActivityManager.class, "IActivityManagerSingleton");
         if (IActivityManagerSingleton == null) {
             log("Unable to install ActivityManager hook - IActivityManagerSingleton was null");
@@ -33,21 +48,44 @@ public class ServiceHooks {
         }
         Method getMethod = IActivityManagerSingleton.getClass().getMethod("get");
         getMethod.setAccessible(true);
-        return ProxyHook.addHook(getMethod.invoke(IActivityManagerSingleton), onBinderListener);
+        return BinderHook.addHook(getMethod.invoke(IActivityManagerSingleton), binderListener);
     }
 
-    public static boolean hookAppOpsManager(@NonNull AppOpsManager appOpsManager, @NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException {
+    public static boolean hookActivityManager(@NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
+        Object IActivityManagerSingleton = getReflective(null, ActivityManager.class, "IActivityManagerSingleton");
+        if (IActivityManagerSingleton == null) {
+            log("Unable to install ActivityManager hook - IActivityManagerSingleton was null");
+            return false;
+        }
+        Field instanceField = Class.forName("android.util.Singleton").getDeclaredField("mInstance");
+        instanceField.setAccessible(true);
+        return ProxyHook.addHook(IActivityManagerSingleton, instanceField,Class.forName("android.app.IActivityManager"), proxyListener);
+    }
+
+    public static boolean hookAppOpsManager(@NonNull AppOpsManager appOpsManager, @NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException {
         Object mService = getReflective(appOpsManager, "mService");
-        return ProxyHook.addHook(mService, onBinderListener);
+        return BinderHook.addHook(mService, binderListener);
+    }
+
+    public static boolean hookAppOpsManager(@NonNull AppOpsManager appOpsManager, @NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+        Field f = appOpsManager.getClass().getDeclaredField("mService");
+        f.setAccessible(true);
+        return ProxyHook.addHook(appOpsManager, f,f.getType(), proxyListener);
     }
 
 
-    public static boolean hookPackageManager(@NonNull PackageManager packageManager, @NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException {
+    public static boolean hookPackageManager(@NonNull PackageManager packageManager, @NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException {
         Object mPM = getReflective(packageManager, "mPM");
-        return ProxyHook.addHook(mPM, onBinderListener);
+        return BinderHook.addHook(mPM, binderListener);
     }
 
-    public static boolean hookActivityTaskManager(@NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+    public static boolean hookPackageManager(@NonNull PackageManager packageManager, @NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException {
+        Field f = packageManager.getClass().getDeclaredField("mPM");
+        f.setAccessible(true);
+        return ProxyHook.addHook(packageManager, f,f.getType(), proxyListener);
+    }
+
+    public static boolean hookActivityTaskManager(@NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
         Object IActivityTaskManagerSingleton = getReflective(null, Class.forName("android.app.ActivityTaskManager"), "IActivityTaskManagerSingleton");
         if (IActivityTaskManagerSingleton == null) {
             log("Unable to install ActivityTaskManager hook - IActivityManagerSingleton was null");
@@ -55,11 +93,40 @@ public class ServiceHooks {
         }
         Method getMethod = IActivityTaskManagerSingleton.getClass().getMethod("get");
         getMethod.setAccessible(true);
-        return ProxyHook.addHook(getMethod.invoke(IActivityTaskManagerSingleton), onBinderListener);
+        return BinderHook.addHook(getMethod.invoke(IActivityTaskManagerSingleton), binderListener);
     }
 
-    public static boolean hookWindowManager(@NonNull OnBinderListener onBinderListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+
+    public static boolean hookActivityTaskManager(@NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
+        Object IActivityTaskManagerSingleton = getReflective(null, Class.forName("android.app.ActivityTaskManager"), "IActivityTaskManagerSingleton");
+        if (IActivityTaskManagerSingleton == null) {
+            log("Unable to install ActivityManager hook - IActivityManagerSingleton was null");
+            return false;
+        }
+        Field instanceField = Class.forName("android.util.Singleton").getDeclaredField("mInstance");
+        instanceField.setAccessible(true);
+        return ProxyHook.addHook(IActivityTaskManagerSingleton, instanceField,Class.forName("android.app.IActivityTaskManager"), proxyListener);
+    }
+
+    public static boolean hookWindowManager(@NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
         Object sWindowManagerService = getReflective(null, Class.forName("android.view.WindowManagerGlobal"), "sWindowManagerService");
-        return ProxyHook.addHook(sWindowManagerService, onBinderListener);
+        return BinderHook.addHook(sWindowManagerService, binderListener);
+    }
+
+    public static boolean hookWindowManager(@NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+        Field f = Class.forName("android.view.WindowManagerGlobal").getDeclaredField("sWindowManagerService");
+        f.setAccessible(true);
+        return ProxyHook.addHook(null, f,Class.forName("android.view.WindowManager"), proxyListener);
+    }
+
+    public static boolean hookWindowSession(@NonNull BinderListener binderListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+        Object sWindowSession = getReflective(null, Class.forName("android.view.IWindowManagerGlobal"), "sWindowSession");
+        return BinderHook.addHook(sWindowSession, binderListener);
+    }
+
+    public static boolean hookWindowSession(@NonNull ProxyListener proxyListener) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+        Field f = Class.forName("android.view.WindowManagerGlobal").getDeclaredField("sWindowSession");
+        f.setAccessible(true);
+        return ProxyHook.addHook(null, f,Class.forName("android.view.IWindowSession"), proxyListener);
     }
 }

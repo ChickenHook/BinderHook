@@ -3,7 +3,6 @@ package org.chickenhook.binderhooks;
 import android.app.AppOpsManager;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
@@ -24,7 +23,7 @@ public class ServiceHooksTest {
         InstrumentationRegistry.getInstrumentation().getTargetContext().getContentResolver(); // let android establish a connection to the service first
 
 
-        assertTrue(ServiceHooks.hookContentResolver(new OnBinderListener() {
+        assertTrue(ServiceHooks.hookContentResolver(new BinderListener() {
             @Override
             protected boolean transact(@NonNull IBinder originalBinder, int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
                 return originalBinder.transact(code, data, reply, flags);
@@ -38,7 +37,7 @@ public class ServiceHooksTest {
         notificationManager.cancelAll(); // let android establish a connection to the service first
 
 
-        assertTrue(ServiceHooks.hookNotificationManager(new OnBinderListener() {
+        assertTrue(ServiceHooks.hookNotificationManager(new BinderListener() {
             @Override
             protected boolean transact(@NonNull IBinder originalBinder, int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
                 return originalBinder.transact(code, data, reply, flags);
@@ -48,7 +47,7 @@ public class ServiceHooksTest {
 
     @Test
     public void hookActivityManager() throws Exception {
-        assertTrue(ServiceHooks.hookActivityManager(new OnBinderListener() {
+        assertTrue(ServiceHooks.hookActivityManager(new BinderListener() {
             @Override
             protected boolean transact(@NonNull IBinder originalBinder, int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
                 return originalBinder.transact(code, data, reply, flags);
@@ -62,7 +61,7 @@ public class ServiceHooksTest {
         appOpsManager.checkPackage(Os.getuid(), InstrumentationRegistry.getInstrumentation().getContext().getPackageName());  // let android establish a connection to the service first
 
 
-        assertTrue(ServiceHooks.hookAppOpsManager(appOpsManager, new OnBinderListener() {
+        assertTrue(ServiceHooks.hookAppOpsManager(appOpsManager, new BinderListener() {
             @Override
             protected boolean transact(@NonNull IBinder originalBinder, int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
                 return originalBinder.transact(code, data, reply, flags);
@@ -72,7 +71,7 @@ public class ServiceHooksTest {
 
     @Test
     public void hookPackageManager() throws Exception {
-        assertTrue(ServiceHooks.hookPackageManager(InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageManager(), new OnBinderListener() {
+        assertTrue(ServiceHooks.hookPackageManager(InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageManager(), new BinderListener() {
             @Override
             protected boolean transact(@NonNull IBinder originalBinder, int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
                 return originalBinder.transact(code, data, reply, flags);

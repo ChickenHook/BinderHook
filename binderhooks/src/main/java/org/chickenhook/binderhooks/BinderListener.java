@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import java.io.FileDescriptor;
 
-public abstract class OnBinderListener {
+public abstract class BinderListener {
     @Nullable
     protected String getInterfaceDescriptor(@NonNull IBinder originalBinder) throws RemoteException {
         return originalBinder.getInterfaceDescriptor();

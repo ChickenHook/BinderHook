@@ -198,6 +198,24 @@ A lot of other service hooks are also present. However some are missing and will
 |UsageStatsService|WIP|
 |...|Feel free to submit feature requests if you need more services|
 
+## Interface Hooking
+If you just wanna change some args and not manipulate Parcel directly you can use ProxyListener:
+
+```
+        ServiceHooks.hookActivityManager(new ProxyListener() {
+            @Override
+            public Object invoke(Object orig, Object proxy, Method method, Object[] args) throws Throwable {
+                if (method.getName().equals("startActivity") && args.length == 10) {
+                    args[args.length - 3] = ((int) args[args.length - 3]) |
+                            START_FLAG_DEBUG |
+                            START_FLAG_TRACK_ALLOCATION |
+                            START_FLAG_NATIVE_DEBUGGING;
+                }
+                return method.invoke(orig, args);
+            }
+        });
+```
+
 ## Enable VERBOSE mode
 
 By adding these lines of code you can enable the verbose mode
