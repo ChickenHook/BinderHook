@@ -1,11 +1,22 @@
 # BinderHook
 Library intended to hook Binder interface and manipulate events
 
-# Description
+# Table of Contents
+* [Description](#description)
+* [Integration](#integration)
+* [Usage](#usage)
+<br>     => [Android Services](#android-services)
+<br>     => [Interface Hooking](#interface-hooking)
+<br>     => [Verbose mode](#verbose-mode)
+<br>     => [Parcel](#parcel)
+<br>     => [Parcel](#parcel)
+* [Troubleshooting](#troubleshooting)
+
+# <a name="description"/> Description
 
 This library helps to hook binder communication between your App process and system services of Android.
 
-# Integration
+# <a name="integration"/> Integration
 Just include the maven repository
 
 1) In your root build.gradle:
@@ -25,9 +36,11 @@ allprojects {
         implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
    }
 ```
-# Usage
+# <a name="usage"/> Usage
 
 This chapter showcases how to use this hooking library. Also please have a look at [MainActivity.kt](app/src/main/java/org/chickenhook/chickenbinder/MainActivity.kt), [MainActivityTest.kt](androidTest/src/main/java/org/chickenhook/chickenbinder/MainActivityTest.kt) and [ServiceHooksTest.java](binderhooks/src/androidTest/java/org/chickenhook/binderhooks/ServiceHooksTest.java)
+
+## <a name="android-services"/>  Android Services
 
 ### Package Manager
 
@@ -198,7 +211,7 @@ A lot of other service hooks are also present. However some are missing and will
 |UsageStatsService|WIP|
 |...|Feel free to submit feature requests if you need more services|
 
-## Interface Hooking
+## <a name="interface-hooking"/> Interface Hooking
 If you just wanna change some args and not manipulate Parcel directly you can use ProxyListener:
 
 ```
@@ -216,7 +229,7 @@ If you just wanna change some args and not manipulate Parcel directly you can us
         });
 ```
 
-## Enable VERBOSE mode
+## <a name="verbose-mode"/> Enable VERBOSE mode
 
 By adding these lines of code you can enable the verbose mode
 
@@ -261,7 +274,7 @@ and
 
 for any transaction that went through your installed binder hook.
 
-## Parcel
+## <a name="parcel"/> Parcel
 
 In order to work with existing parcels and be able to modify also restricted content like flattened Binder objects (aka writeStrongBinder, readStrongBinder) we added some low level edit functions.
 
@@ -293,13 +306,11 @@ Read a bunch of bytes from the given offset
 ```
 
 
-## Troubleshooting
+## <a name="troubleshooting"/> Troubleshooting
 
 Please create a bug report if you find any issues. This chapter will be updated then.
 
 
-## Donate
+## Sponsor
 
 If you're happy with my library please order me a cup of coffee ;) Thanks.
-
-[![Donate with PayPal](https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8UH5MBVYM3J36)
