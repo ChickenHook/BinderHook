@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.chickenhook.chickenbinder">
+    <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -10,14 +11,14 @@
         android:supportsRtl="true"
         android:vmSafeMode="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".AppListener">
+        <receiver android:name=".AppListener" android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 

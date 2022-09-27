@@ -1,5 +1,7 @@
 package org.chickenhook.chickenbinder;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+
 import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,14 +27,20 @@ public class MainActivity extends AppCompatActivity {
         Button packageManagerTestButton = findViewById(R.id.packageManagerTest);
         Button permissionTestButton = findViewById(R.id.permissionTest);
         Button windowManagerTestButton = findViewById(R.id.windowManagerTest);
-
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                new String[]{
+                        Manifest.permission.READ_CALENDAR
+                },
+                1001
+        );
         permissionTestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(
                         MainActivity.this,
                         new String[]{
-                                Manifest.permission.READ_CONTACTS
+                                Manifest.permission.READ_CONTACTS, READ_EXTERNAL_STORAGE
                         },
                         1001
                 );
@@ -68,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
         ServiceHooks.hookActivityTaskManager(new ProxyListener() {
             @Override
             public Object invoke(Object orig, Object proxy, Method method, Object[] args) throws Throwable {
-                if (method.getName().equals("startActivity") && args.length == 10) {
+                Log.d("MainActivity", "hookActivityTaskManager [+] finally gor method call -" + method + "- on objact -" + orig + "-");
+
+                if (method.getName().equals("startActivity")) {
                     args[args.length - 3] = ((int) args[args.length - 3]) |
                             START_FLAG_DEBUG |
                             START_FLAG_TRACK_ALLOCATION |
