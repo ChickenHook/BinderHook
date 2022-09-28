@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Button packageManagerTestButton = findViewById(R.id.packageManagerTest);
         Button permissionTestButton = findViewById(R.id.permissionTest);
         Button windowManagerTestButton = findViewById(R.id.windowManagerTest);
+        Button serviceManagerTestButton = findViewById(R.id.serviceManagerTest);
         ActivityCompat.requestPermissions(
                 MainActivity.this,
                 new String[]{
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
                 );
             }
         });
+        /*serviceManagerTestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
 
         try {
             hook();
@@ -85,6 +92,14 @@ public class MainActivity extends AppCompatActivity {
                             START_FLAG_NATIVE_DEBUGGING;
                 }
                 return method.invoke(orig, args);
+            }
+        });
+
+        ServiceHooks.hookSeriveManagerNative(new ProxyListener() {
+            @Override
+            public Object invoke(Object original, Object proxy, Method method, Object[] args) throws Throwable {
+                Log.d("MainActivity", "hookSeriveManagerNative [+] finally gor method call -" + method + "- on objact -" + original + "-");
+                return method.invoke(original, args);
             }
         });
     }

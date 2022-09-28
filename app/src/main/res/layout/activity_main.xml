@@ -33,4 +33,11 @@
         android:layout_below="@+id/activityManagerTest"
         android:text="WindowManagerTest" />
 
+    <Button
+        android:id="@+id/serviceManagerTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/windowManagerTest"
+        android:text="ServiceManagerTest" />
+
 </RelativeLayout>

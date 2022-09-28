@@ -1,5 +1,6 @@
 package org.chickenhook.binderhooks;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AppOpsManager;
 import android.app.NotificationManager;
@@ -128,5 +129,15 @@ public class ServiceHooks {
         Field f = Class.forName("android.view.WindowManagerGlobal").getDeclaredField("sWindowSession");
         f.setAccessible(true);
         return ProxyHook.addHook(null, f,Class.forName("android.view.IWindowSession"), proxyListener);
+    }
+
+    @SuppressLint("BlockedPrivateApi")
+    public static boolean hookSeriveManagerNative(@NonNull ProxyListener proxyListener) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        Field f = Class.forName("android.os.ServiceManager").getDeclaredField("sServiceManager");
+        f.setAccessible(true);
+        Object serviceManagerProxy = f.get(null);
+        f = Class.forName("android.os.ServiceManagerProxy").getDeclaredField("mServiceManager");
+        f.setAccessible(true);
+        return ProxyHook.addHook(serviceManagerProxy, f, Class.forName("android.os.IServiceManager"), proxyListener);
     }
 }
